@@ -7,7 +7,7 @@ const Home: React.FC = () => {
   return (
     <div className="p-8">
       <PlayerForm onPlayersSubmit={() =>setPlayers} />
-      {players.length > 0 && <DrawGenerator players={players} />}
+      {players.length > 0 && <DrawGenerator players={players} tournamentSize={0} />}
     </div>
   );
 };

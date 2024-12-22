@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { motion } from "framer-motion";
 
 interface Player {
   name: string;
@@ -27,9 +28,15 @@ const PlayerForm: React.FC<Props> = ({ onPlayersSubmit }) => {
   };
 
   return (
-    <div className="p-4">
-      <h2 className="text-xl font-bold">Add Players</h2>
-      <div className="flex gap-2 my-4">
+    <div className="p-4 bg-white shadow-lg rounded-lg">
+      <motion.h2
+        className="text-2xl font-bold mb-4 text-center"
+        initial={{ scale: 0.8 }}
+        animate={{ scale: 1 }}
+      >
+        Add Players
+      </motion.h2>
+      <div className="flex gap-2 mb-4">
         <input
           type="text"
           placeholder="Player Name"
@@ -44,19 +51,21 @@ const PlayerForm: React.FC<Props> = ({ onPlayersSubmit }) => {
           onChange={(e) => setRanking(Number(e.target.value))}
           className="border p-2 rounded w-full"
         />
-        <button
+        <motion.button
           onClick={addPlayer}
           className="bg-blue-500 text-white p-2 rounded hover:bg-blue-600"
+          whileHover={{ scale: 1.05 }}
         >
           Add
-        </button>
+        </motion.button>
       </div>
-      <button
+      <motion.button
         onClick={handleSubmit}
         className="bg-green-500 text-white p-2 rounded hover:bg-green-600"
+        whileHover={{ scale: 1.05 }}
       >
         Generate Draw
-      </button>
+      </motion.button>
       <ul className="mt-4">
         {players.map((player, idx) => (
           <li key={idx} className="py-1">

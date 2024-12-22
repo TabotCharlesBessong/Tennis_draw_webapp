@@ -1,4 +1,5 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
 interface Player {
   name: string;
@@ -7,15 +8,35 @@ interface Player {
 
 interface Props {
   players: Player[];
+  tournamentSize: number;
+  isGrandSlam?: boolean;
 }
 
-const DrawGenerator: React.FC<Props> = ({ players }) => {
+const DrawGenerator: React.FC<Props> = ({
+  players,
+  tournamentSize,
+  isGrandSlam = false,
+}) => {
+  const navigate = useNavigate()
   const generateDraw = () => {
-    const byes:any = [];
-    const seeds = players.slice(0, 4); // For 32 players example.
-    const unseeded = players.slice(4);
+    const sortedPlayers = players.sort((a, b) => a.ranking - b.ranking);
+    const numByes =
+      tournamentSize === 32
+        ? 4
+        : tournamentSize === 64
+        ? players.length >= 56
+          ? 16
+          : 8
+        : isGrandSlam
+        ? 0
+        : 32;
 
-    // Simplified seeding logic for now
+    const byes = Array(numByes).fill({ name: "Bye", ranking: Infinity });
+    const seeds = sortedPlayers.slice(0, tournamentSize - numByes);
+    const unseeded = sortedPlayers.slice(tournamentSize - numByes);
+
+
+    navigate("/draw")
     return [...seeds, ...byes, ...unseeded];
   };
 
@@ -24,10 +45,11 @@ const DrawGenerator: React.FC<Props> = ({ players }) => {
   return (
     <div className="p-4">
       <h2 className="text-xl font-bold">Tournament Draw</h2>
-      <ul>
+      <ul className="grid grid-cols-2 gap-4">
         {draw.map((player, idx) => (
-          <li key={idx} className="py-1">
-            {player.name} - Rank: {player.ranking}
+          <li key={idx} className="bg-gray-100 p-2 rounded shadow">
+            {player.name}{" "}
+            {player.ranking !== Infinity && `- Rank: ${player.ranking}`}
           </li>
         ))}
       </ul>
