@@ -11,6 +11,19 @@ import ao from "../assets/images/AO.avif"
 import rg from "../assets/images/RG.jpeg"
 import wimbledon from "../assets/images/wimbledon.jpeg"
 import us from "../assets/images/us.jpg"
+import barcelona from "../assets/images/barcelona.jpg"
+import carlos from "../assets/images/carlos.webp"
+import cilic from "../assets/images/cilic.jpg"
+import cincinati from "../assets/images/cincinati.jpg"
+import iga from "../assets/images/iga.jpg"
+import indian_well from "../assets/images/indian_well.jpeg"
+import kei from "../assets/images/kei.jpg"
+import miami from "../assets/images/miami.jpeg"
+import monte_carlo from "../assets/images/monte_carlo.jpg"
+import osaka from "../assets/images/osaka.jpeg"
+import tokyo from "../assets/images/tokyo.jpg"
+import queens from "../assets/images/queens.jpg"
+import dubai from "../assets/images/dubai.jpg"
 
 const images = {
   rafa,
@@ -25,7 +38,20 @@ const images = {
   wimbledon,
   us,
   christ,
-  martina
+  martina,
+  barcelona,
+  carlos,
+  cilic,
+  cincinati,
+  iga,
+  indian_well,
+  kei,
+  miami,
+  monte_carlo,
+  osaka,
+  tokyo,
+  queens,
+  dubai
 }
 
 export default images

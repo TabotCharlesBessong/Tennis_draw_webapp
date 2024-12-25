@@ -59,44 +59,44 @@ const sections: Section[] = [
     tournaments: [
       {
         name: "Indian Wells",
-        image: "/images/indian-wells.jpg",
+        image: images.indian_well,
         description:
           "Known as the 'fifth Grand Slam,' Indian Wells is a hard-court tournament that attracts top players yearly.",
         players: [
-          { name: "Novak Djokovic", image: "/images/players/djokovic.jpg" },
-          { name: "Iga Swiatek", image: "/images/players/swiatek.jpg" },
+          { name: "Novak Djokovic", image: images.novak },
+          { name: "Iga Swiatek", image: images.iga },
         ],
       },
       {
         name: "Miami Open",
-        image: "/images/miami-open.jpg",
+        image: images.miami,
         description:
           "Played on hard courts in Miami, this tournament is part of the 'Sunshine Double' with Indian Wells.",
         players: [
-          { name: "Roger Federer", image: "/images/players/federer.jpg" },
+          { name: "Roger Federer", image: images.roger },
           { name: "Ashleigh Barty", image: "/images/players/barty.jpg" },
         ],
       },
       {
         name: "Monte Carlo",
-        image: "/images/monte-carlo.jpg",
+        image: images.monte_carlo,
         description:
           "A historic clay tournament in Monaco, Rafael Nadal has dominated with 11 titles.",
         players: [
-          { name: "Rafael Nadal", image: "/images/players/nadal.jpg" },
+          { name: "Rafael Nadal", image: images.rafa },
           {
             name: "Stefanos Tsitsipas",
-            image: "/images/players/tsitsipas.jpg",
+            image: images.stefan,
           },
         ],
       },
       {
         name: "Cincinnati Masters",
-        image: "/images/cincinnati.jpg",
+        image: images.cincinati,
         description:
           "Played on hard courts, Cincinnati is one of the oldest tournaments in the US.",
         players: [
-          { name: "Andy Murray", image: "/images/players/murray.jpg" },
+          { name: "Andy Murray", image: images.andy },
           { name: "Victoria Azarenka", image: "/images/players/azarenka.jpg" },
         ],
       },
@@ -109,42 +109,42 @@ const sections: Section[] = [
     tournaments: [
       {
         name: "Barcelona Open",
-        image: "/images/barcelona.jpg",
+        image: images.barcelona,
         description:
           "Played on clay courts, Rafael Nadal holds a record 12 titles.",
         players: [
-          { name: "Rafael Nadal", image: "/images/players/nadal.jpg" },
-          { name: "Carlos Alcaraz", image: "/images/players/alcaraz.jpg" },
+          { name: "Rafael Nadal", image: images.rafa },
+          { name: "Carlos Alcaraz", image: images.carlos },
         ],
       },
       {
         name: "Dubai Tennis Championships",
-        image: "/images/dubai.jpg",
+        image: images.dubai,
         description:
           "Held on hard courts in Dubai, this tournament has seen dominant performances by Novak Djokovic and Roger Federer.",
         players: [
-          { name: "Novak Djokovic", image: "/images/players/djokovic.jpg" },
-          { name: "Roger Federer", image: "/images/players/federer.jpg" },
+          { name: "Novak Djokovic", image: images.novak },
+          { name: "Roger Federer", image: images.roger },
         ],
       },
       {
         name: "Queen's Club Championships",
-        image: "/images/queens.jpg",
+        image: images.queens,
         description:
           "A prestigious grass-court tournament held in London, it's seen many Wimbledon champions shine.",
         players: [
-          { name: "Andy Murray", image: "/images/players/murray.jpg" },
-          { name: "Marin Čilić", image: "/images/players/cilic.jpg" },
+          { name: "Andy Murray", image: images.andy },
+          { name: "Marin Čilić", image: images.cilic },
         ],
       },
       {
         name: "Tokyo Open",
-        image: "/images/tokyo.jpg",
+        image: images.tokyo,
         description:
           "Played on hard courts, the Tokyo Open is one of Asia's leading tennis events.",
         players: [
-          { name: "Kei Nishikori", image: "/images/players/nishikori.jpg" },
-          { name: "Naomi Osaka", image: "/images/players/osaka.jpg" },
+          { name: "Kei Nishikori", image: images.kei },
+          { name: "Naomi Osaka", image: images.osaka },
         ],
       },
     ],

@@ -7,7 +7,7 @@ const HomePage: React.FC = () => {
   return (
     <div className="relative">
       {/* Navbar */}
-      <nav className="fixed top-0 left-0 w-full bg-white shadow-md z-50 flex justify-between items-center px-8 py-4 mb-12">
+      <nav className="fixed top-0 left-0 w-full bg-white shadow-md z-50 flex justify-between items-center px-8 py-4 mb-32">
         <div className="text-xl font-bold">Tennis Draw Guide</div>
         <ul className="flex gap-6">
           {data.sections.map((section, index) => (
@@ -28,7 +28,7 @@ const HomePage: React.FC = () => {
           Start Draw
         </a>
       </nav>
-      <div className="h-screen overflow-y-auto mt-12 snap-y snap-mandatory">
+      <div className="h-screen overflow-y-auto mt-30 snap-y snap-mandatory">
         {data.sections.map((section, index) => (
           <motion.section
             key={index}
@@ -52,7 +52,7 @@ const HomePage: React.FC = () => {
                   <img
                     src={tournament.image}
                     alt={tournament.name}
-                    className="w-full h-64 object-cover rounded-lg mb-4"
+                    className="w-full h-[500px] object-cover rounded-lg mb-4"
                   />
                   <h2 className="text-xl font-semibold">{tournament.name}</h2>
                   <p className="text-sm text-gray-700 mb-4">
