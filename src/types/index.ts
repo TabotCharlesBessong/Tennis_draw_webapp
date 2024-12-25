@@ -10,3 +10,19 @@ interface Tournament {
   description: string;
   players: { name: string; image: string }[];
 }
+
+export interface Player {
+  name: string
+  ranking: number;
+}
+
+export interface DrawResult {
+  name: string;
+  ranking: number;
+}
+
+export interface TournamentState {
+  players: Player[];
+  isGrandSlam: boolean;
+  tournamentSize: number;
+}
