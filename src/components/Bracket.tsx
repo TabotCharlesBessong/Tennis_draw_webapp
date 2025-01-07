@@ -1,55 +1,56 @@
 import React from "react";
-import { motion } from "framer-motion";
 
 interface Player {
   name: string;
   ranking: number;
 }
 
-interface Match {
-  player1: Player | null;
-  player2: Player | null;
+interface BracketProps {
+  draw: Player[][][];
 }
 
-interface Props {
-  draw: Match[][];
-}
+const Bracket: React.FC<BracketProps> = ({ draw }) => {
+  // Helper function to get the title for each round
+  const getRoundTitle = (roundIndex: number, totalRounds: number): string => {
+    if (roundIndex === totalRounds - 1) return "Final";
+    if (roundIndex === totalRounds - 2) return "Semifinals";
+    if (roundIndex === totalRounds - 3) return "Quarterfinals";
+    if (roundIndex === totalRounds - 4) return "Round of 16";
+    return `Round ${roundIndex + 1}`;
+  };
 
-const Bracket: React.FC<Props> = ({ draw }) => {
   return (
-    <div className="p-4">
-      <h2 className="text-2xl font-bold text-center mb-4">
-        Tournament Bracket
-      </h2>
-      <div className="flex flex-col gap-6">
-        {draw.map((round, roundIndex) => (
-          <motion.div
-            key={roundIndex}
-            className="flex flex-col gap-4"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: roundIndex * 0.2 }}
-          >
-            <h3 className="text-lg font-semibold">Round {roundIndex + 1}</h3>
-            <div className="grid grid-cols-2 gap-4">
-              {round.map((match, matchIndex) => (
-                <div
-                  key={matchIndex}
-                  className="bg-white p-4 rounded shadow-md flex justify-between items-center"
-                >
-                  <div className="text-gray-700">
-                    {match.player1 ? match.player1.name : "Bye"}
-                  </div>
-                  <span className="text-gray-500 font-bold">vs</span>
-                  <div className="text-gray-700">
-                    {match.player2 ? match.player2.name : "Bye"}
-                  </div>
-                </div>
-              ))}
+    <div className="bracket-container flex overflow-x-scroll">
+      {draw.map((round, roundIndex) => (
+        <div key={roundIndex} className="round flex flex-col items-center mx-4">
+          {/* Round Title */}
+          <h2 className="text-lg font-bold mb-4">
+            {getRoundTitle(roundIndex, draw.length)}
+          </h2>
+
+          {/* Matches */}
+          {round.map((match, matchIndex) => (
+            <div
+              key={matchIndex}
+              className="match bg-gray-200 p-4 rounded shadow mb-4 w-56"
+            >
+              <p className="text-center font-semibold mb-2">
+                Match {matchIndex + 1}
+              </p>
+              <div className="player mb-2">
+                <span className="font-medium">{match[0]?.name || "TBD"}</span>
+                {match[0]?.ranking !== Infinity &&
+                  ` (Seed ${match[0]?.ranking})`}
+              </div>
+              <div className="player">
+                <span className="font-medium">{match[1]?.name || "TBD"}</span>
+                {match[1]?.ranking !== Infinity &&
+                  ` (Seed ${match[1]?.ranking})`}
+              </div>
             </div>
-          </motion.div>
-        ))}
-      </div>
+          ))}
+        </div>
+      ))}
     </div>
   );
 };

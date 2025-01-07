@@ -1,56 +1,65 @@
-import { DrawResult, Player } from "../types";
+interface Player {
+  name: string;
+  ranking: number;
+}
 
 export const generateDraw = (
   players: Player[],
   tournamentSize: number,
-  isGrandSlam: boolean
-): DrawResult[] => {
-  const sortedPlayers = [...players].sort((a, b) => a.ranking - b.ranking);
+  isGrandSlam: boolean,
+  byes: number
+): Player[][][] => {
+  // Sort players by ranking
+  const sortedPlayers = players.sort((a, b) => a.ranking - b.ranking);
 
-  // Determine the number of byes
-  let numByes = 0;
-  if (tournamentSize === 32) {
-    numByes = 4;
-  } else if (tournamentSize === 64) {
-    numByes = players.length >= 56 ? 16 : 8;
-  } else if (tournamentSize === 128 && !isGrandSlam) {
-    numByes = 32;
+  // Determine number of byes
+  const totalByes = isGrandSlam ? 0 : byes;
+  const totalRounds = Math.log2(tournamentSize);
+  const draw: Player[][][] = [];
+
+  // Generate first round matches (with byes if applicable)
+  const firstRoundMatches: Player[][] = [];
+  const byePlayers = sortedPlayers.slice(0, totalByes);
+  const remainingPlayers = sortedPlayers.slice(totalByes);
+
+  // Add byes to the first round
+  for (const player of byePlayers) {
+    firstRoundMatches.push([player, { name: "Bye", ranking: Infinity }]);
   }
 
-  const byes: DrawResult[] = Array(numByes).fill({
-    name: "Bye",
-    ranking: Infinity,
-  });
-
-  const seeds = sortedPlayers.slice(
-    0,
-    Math.min(tournamentSize / 2, sortedPlayers.length)
-  );
-  const unseeded = sortedPlayers.slice(seeds.length);
-
-  const draw: DrawResult[] = [];
-  for (let i = 0; i < tournamentSize; i++) {
-    if (i < seeds.length) {
-      draw.push(seeds[i]);
-    } else if (byes.length > 0) {
-      draw.push(byes.shift()!);
-    } else {
-      draw.push(unseeded.shift()!);
-    }
+  // Pair remaining players randomly for the first round
+  const shuffledPlayers = [...remainingPlayers].sort(() => Math.random() - 0.5);
+  while (shuffledPlayers.length > 1) {
+    const player1 = shuffledPlayers.pop()!;
+    const player2 = shuffledPlayers.pop()!;
+    firstRoundMatches.push([player1, player2]);
   }
 
-  // Ensure bracket rules
-  for (let round = 1; round < Math.log2(tournamentSize); round++) {
-    const step = Math.pow(2, round);
-    for (let i = 0; i < draw.length; i += step) {
-      const half = step / 2;
-      if (i + half < draw.length) {
-        [draw[i + half - 1], draw[i + step - 1]] = [
-          draw[i + step - 1],
-          draw[i + half - 1],
-        ];
-      }
+  // Add remaining unmatched player to a bye (if applicable)
+  if (shuffledPlayers.length) {
+    firstRoundMatches.push([
+      shuffledPlayers.pop()!,
+      { name: "Bye", ranking: Infinity },
+    ]);
+  }
+
+  // Add the first round to the draw
+  draw.push(firstRoundMatches);
+
+  // Generate subsequent rounds
+  for (let round = 1; round < totalRounds; round++) {
+    const previousRound = draw[round - 1];
+    const currentRound: Player[][] = [];
+
+    // Add blank matches for subsequent rounds
+    for (let i = 0; i < previousRound.length / 2; i++) {
+      currentRound.push([
+        { name: "TBD", ranking: Infinity },
+        { name: "TBD", ranking: Infinity },
+      ]);
     }
+
+    draw.push(currentRound);
   }
 
   return draw;

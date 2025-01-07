@@ -1,72 +1,64 @@
 import React, { useState } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
-import { Player, TournamentState } from "../types";
+import { useNavigate } from "react-router-dom";
 
-const AddPlayersPage: React.FC = () => {
-  const location = useLocation();
-  const { tournamentSize } = location.state as TournamentState;
-  const totalPlayers = Number(tournamentSize);
+interface Player {
+  name: string;
+  ranking: number;
+}
 
+interface AddPlayersPageProps {
+  tournamentSize: number;
+  onPlayersSubmit: (players: Player[]) => void;
+}
+
+const AddPlayersPage: React.FC<AddPlayersPageProps> = ({
+  tournamentSize,
+  onPlayersSubmit,
+}) => {
   const [players, setPlayers] = useState<Player[]>(
-    Array(totalPlayers).fill({ name: "", ranking: 0 })
+    Array.from({ length: tournamentSize }, (_, i) => ({
+      name: "",
+      ranking: i + 1,
+    }))
   );
+  const navigate = useNavigate()
 
-  const navigate = useNavigate();
-
-  const handlePlayerChange = (
-    index: number,
-    field: keyof Player,
-    value: string | number
-  ) => {
+  const handleNameChange = (index: number, name: string) => {
     const updatedPlayers = [...players];
-    updatedPlayers[index] = { ...updatedPlayers[index], [field]: value };
+    updatedPlayers[index].name = name;
     setPlayers(updatedPlayers);
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    navigate("/draw-results", {
-      state: {
-        players,
-        tournamentSize,
-        isGrandSlam: location.state.isGrandSlam,
-      },
-    });
+  const handleSubmit = () => {
+    onPlayersSubmit(players);
+    navigate("/draw-results")
   };
 
   return (
-    <div className="min-h-screen p-4 flex flex-col items-center">
-      <h1 className="text-3xl font-bold mb-6">Add Players</h1>
-      <form onSubmit={handleSubmit} className="w-full max-w-lg">
-        {players.map((player, idx) => (
-          <div key={idx} className="flex gap-4 mb-4">
+    <div className="p-6">
+      <h1 className="text-3xl font-bold mb-4">Add Players</h1>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        {players.map((player, index) => (
+          <div key={index} className="mb-4">
+            <label className="block font-semibold mb-2">
+              Player {index + 1} (Seed {player.ranking})
+            </label>
             <input
               type="text"
-              placeholder={`Player ${idx + 1} Name`}
               value={player.name}
-              onChange={(e) => handlePlayerChange(idx, "name", e.target.value)}
-              className="flex-1 border rounded px-3 py-2"
-              required
-            />
-            <input
-              type="number"
-              placeholder="Ranking"
-              value={player.ranking}
-              onChange={(e) =>
-                handlePlayerChange(idx, "ranking", Number(e.target.value))
-              }
-              className="w-24 border rounded px-3 py-2"
-              required
+              onChange={(e) => handleNameChange(index, e.target.value)}
+              placeholder="Enter Player Name"
+              className="border p-2 rounded w-full"
             />
           </div>
         ))}
-        <button
-          type="submit"
-          className="w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600"
-        >
-          Generate Draw
-        </button>
-      </form>
+      </div>
+      <button
+        onClick={handleSubmit}
+        className="bg-blue-500 text-white px-4 py-2 rounded mt-4"
+      >
+        Submit Players
+      </button>
     </div>
   );
 };
